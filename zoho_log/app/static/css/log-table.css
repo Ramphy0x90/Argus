@@ -1,0 +1,21 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: var(--main-color);
+    color: white;
+    padding: var(--space-2);
+}
+
+td {
+    padding: var(--space-1) var(--space-2);
+}
+
+/* zebra striping */
+
+tbody tr:nth-child(odd) {
+    background-color: var(--main-bg-light);
+  }
+  
