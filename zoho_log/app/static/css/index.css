@@ -10,9 +10,8 @@
     flex: 0 0 50%;
 }
 
-.right-colunn {
-    display: flex;
-    flex-direction: column;
+.left-column {
+    height: 50%;
 }
 
 .right-column .title {
@@ -53,6 +52,10 @@
     .index-main-container .right-column {
         flex: auto;
     }
+
+    .left-column {
+        height: 100%;
+    }    
 
     .right-column .content .dashboard {
         display: flex;

@@ -17,6 +17,12 @@
     font-weight: bold;
 }
 
+.card-value {
+    flex: auto;
+    text-align: end;
+    font-size: 25px;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) { }
 
@@ -39,6 +45,11 @@
 
     .card-icon img {
         width: 50px;
+    }
+
+    .card-value {
+        flex: inherit;
+        text-align: inherit;
     }
 }
 

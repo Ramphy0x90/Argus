@@ -13,9 +13,7 @@ td {
     padding: var(--space-1) var(--space-2);
 }
 
-/* zebra striping */
-
-tbody tr:nth-child(odd) {
+tbody tr:nth-child(even) {
     background-color: var(--main-bg-light);
   }
   
