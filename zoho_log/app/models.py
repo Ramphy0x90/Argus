@@ -3,6 +3,7 @@ from django.db import models
 """ Department Mmodel"""
 class Department(models.Model):
     name = models.CharField(max_length=255)
+    zoho_id = models.IntegerField(default=-1)
     country = models.CharField(max_length=255)
 
 """ Function Mmodel"""
@@ -22,4 +23,4 @@ class Log(models.Model):
     function = models.ForeignKey(Function, on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     log_in = models.DateTimeField(auto_now=True)
-    log_out = models.DateTimeField()
+    log_out = models.DateTimeField(null = True)
