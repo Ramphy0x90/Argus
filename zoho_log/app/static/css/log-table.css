@@ -13,7 +13,19 @@ td {
     padding: var(--space-1) var(--space-2);
 }
 
-tbody tr:nth-child(even) {
+tr {
+    cursor: pointer;
+    transition: all 100ms linear;
+}
+
+tr:nth-child(1) {
+    cursor: default;
+}
+
+tr:nth-child(even) {
     background-color: var(--main-bg-light);
-  }
-  
+}
+
+tr:hover{
+    background-color: #ffc8575e;
+}
