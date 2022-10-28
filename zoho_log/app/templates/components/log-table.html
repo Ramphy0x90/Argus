@@ -12,23 +12,13 @@
             <th>Date time</th>
             <th>Status</th>
         </tr>
-        <tr>
-            <td>Function test</td>
-            <td>#123456</td>
-            <td>2022-01-01</td>
-            <td>Error</td>
-        </tr>
-        <tr>
-            <td>Function test</td>
-            <td>#123456</td>
-            <td>2022-01-01</td>
-            <td>Error</td>
-        </tr>
-        <tr>
-            <td>Function test</td>
-            <td>#123456</td>
-            <td>2022-01-01</td>
-            <td>Error</td>
-        </tr>
+        {% for log in logs %}
+            <tr onclick="window.location='log/{{ log.id }}';">
+                <td>{{ log.function__name }}</td>
+                <td>{{ log.ticket__number }}</td>
+                <td>{{ log.log_in }}</td>
+                <td>Error</td>
+            </tr>
+        {% endfor %}
       </table> 
 </div>

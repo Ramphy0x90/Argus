@@ -9,11 +9,12 @@ from .models import Log
 
 from ast import literal_eval
 
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     template = loader.get_template('index.html')
 
-    logs = Log.objects.all().values('function__name', 'ticket__number', 'log_in')
+    logs = Log.objects.all().values('id', 'function__name', 'ticket__number', 'log_in')
     functions = Function.objects.all().values('name', 'department__name')
     departments = Department.objects.all().values()
 
@@ -41,12 +42,25 @@ def index(request):
 
     return HttpResponse(template.render(context, request))
 
+
+def log(request, id):
+    template = loader.get_template('log.html')
+    log = Log.objects.get(id = id)
+
+    context = {
+        'log': log
+    }
+
+    return HttpResponse(template.render(context, request))
+
+
 """
 log_in
 ------
     This request is used to register the
     entry of a Zoho function thats is monitored
 """
+@csrf_exempt
 def log_in(request):
     # Transform POST body data to dictionary
     body_data = literal_eval(request.body.decode('utf-8'))
@@ -85,3 +99,13 @@ def log_in(request):
     new_log.save()
 
     return HttpResponse(1)
+
+
+def log_out(request):
+        # Transform POST body data to dictionary
+    body_data = literal_eval(request.body.decode('utf-8'))
+
+    # Get POST data
+    function = body_data['function']
+    departmentId = body_data['department']
+    ticketId = body_data['ticket']

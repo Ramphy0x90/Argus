@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{% static 'css/dashboard-card.css' %}">
 {% endblock %}
 
-<div class="dashboard-card-main-container card">
+<div class="dashboard-card-main-container card" style="background-color:{{ card_data.color }}">
     <div class="card-icon">
         <img src="{% static 'icons/' %}{{card_data.icon}}">
     </div>

@@ -8,7 +8,7 @@
 {% block body %}
     <div class="index-main-container main-container">
         <div class="left-column column">
-            {% include 'components/left-menu.html' with component_title='Monitored functions' %}
+            {% include 'components/left-menu.html' with component_title='Monitored functions' functions=functions %}
         </div>
         <div class="right-column column">
             <div class="title">Zoho Logs</div>
@@ -19,7 +19,7 @@
                     {% endfor %}
                 </div>
                 <div class="logs-table row">
-                    {% include 'components/log-table.html' with logs='' %}
+                    {% include 'components/log-table.html' with logs=logs %}
                 </div>
             </div>
         </div>

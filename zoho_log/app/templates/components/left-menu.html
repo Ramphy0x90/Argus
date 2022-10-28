@@ -5,5 +5,16 @@
 {% endblock %}
 
 <div class="left-menu-main-container">
-    <div class="left-menu-title">{{ component_title }}</div>
+    <div class="left-menu-title">
+        {{ component_title }}
+        <hr>
+    </div>
+    <div class="content">
+        {% for function in functions %}
+            <div class="left-menu-card">
+                <div class="name">{{ function.name }}</div>
+                <div class="department">{{ function.department__name }}</div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
