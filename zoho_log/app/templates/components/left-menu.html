@@ -11,7 +11,7 @@
     </div>
     <div class="content">
         {% for function in functions %}
-            <div class="left-menu-card">
+            <div class="left-menu-card" onclick="window.location='function/{{ function.id }}';">
                 <div class="name">{{ function.name }}</div>
                 <div class="department">{{ function.department__name }}</div>
             </div>
