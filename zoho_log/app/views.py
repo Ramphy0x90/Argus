@@ -20,7 +20,7 @@ def index(request):
     template = loader.get_template('index.html')
 
     logs = Log.objects.all().values('id', 'function__name', 'ticket__number', 'log_in')
-    functions = Function.objects.all().values('name', 'department__name')
+    functions = Function.objects.all().values('id', 'name', 'department__name')
     departments = Department.objects.all().values()
 
     context = {
@@ -58,6 +58,20 @@ def log(request, id):
         'log': log,
         'function': function,
         'ticket': ticket
+    }
+
+    return HttpResponse(template.render(context, request))
+
+
+@require_GET
+def function(request, id):
+    template = loader.get_template('function.html')
+    function = Function.objects.values('id', 'name', 'department__name').get(id = id)
+    logs = Log.objects.values('id', 'function__name', 'ticket__number', 'log_in').filter(function_id = id)
+
+    context = {
+        'function': function,
+        'logs': logs
     }
 
     return HttpResponse(template.render(context, request))
