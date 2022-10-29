@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_POST
+
 from .models import Function
 from .models import Ticket
 from .models import Department
@@ -11,6 +15,7 @@ from ast import literal_eval
 
 from django.views.decorators.csrf import csrf_exempt
 
+@require_GET
 def index(request):
     template = loader.get_template('index.html')
 
@@ -42,13 +47,17 @@ def index(request):
 
     return HttpResponse(template.render(context, request))
 
-
+@require_GET
 def log(request, id):
     template = loader.get_template('log.html')
-    log = Log.objects.get(id = id)
+    log = Log.objects.values('id', 'function_id', 'ticket_id', 'log_in').get(id = id)
+    function = Function.objects.values('id', 'name', 'department__name').get(id = log['function_id'])
+    ticket = Ticket.objects.values('number', 'zoho_id', 'subject', 'author').get(id = log['ticket_id'])
 
     context = {
-        'log': log
+        'log': log,
+        'function': function,
+        'ticket': ticket
     }
 
     return HttpResponse(template.render(context, request))
@@ -61,6 +70,7 @@ log_in
     entry of a Zoho function thats is monitored
 """
 @csrf_exempt
+@require_POST
 def log_in(request):
     # Transform POST body data to dictionary
     body_data = literal_eval(request.body.decode('utf-8'))

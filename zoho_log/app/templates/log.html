@@ -1,8 +1,56 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block assets %}
+    <link rel="stylesheet" href="{% static 'css/log.css' %}">
+{% endblock %}
+
 {% block body %}
     <div class="log-main-container main-container">
-        LOG PAGE {{ log.id }}
+        <a href="/" class="home-button"> < Home </a>
+        <div class="top-row row">
+            <div class="left-column column section">
+                <div class="title">
+                    Function data
+                    <hr>
+                </div>
+                <div class="content">
+                    <ul>
+                        <li><span class="label">ID:</span> {{ function.id }}</li>
+                        <li><span class="label">Name:</span> {{ function.name }}</li>
+                        <li><span class="label">Department:</span> {{ function.department__name }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right-column column section">
+                <div class="title">
+                    Ticket data
+                    <hr>
+                </div>
+                <div class="content">
+                    <ul>
+                        <li><span class="label">Number:</span> {{ ticket.number }}</li>
+                        <li><span class="label">ZOHO ID:</span> {{ ticket.zoho_id }}</li>
+                        <li><span class="label">Subject:</span> {{ ticket.subject }}</li>
+                        <li><span class="label">Author:</span> {{ ticket.author }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-row row section">
+            <div class="title">
+                Log info
+                <hr>
+            </div>
+            <div class="content">
+                <ul>
+                    <li><span class="label">ID:</span> {{ log.id }}</li>
+                    <li><span class="label">Function ID:</span> {{ log.function_id }}</li>
+                    <li><span class="label">Ticket ID:</span> {{ log.ticket_id }}</li>
+                    <li><span class="label">Log IN date:</span> {{ log.log_in }}</li>
+                    <li><span class="label">Log OUT date:</span> {{ log.log_out }}</li>
+                </ul>
+            </div>
+        </div>
     </div>
 {% endblock %}

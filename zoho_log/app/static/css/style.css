@@ -11,6 +11,11 @@
     --space-4: 20px;
 }
 
+@font-face {
+    font-family: "Silkscreen";
+    src: url("../fonts/Silkscreen-Regular.ttf") format("truetype");
+}
+
 * {
     box-sizing: border-box;
 }

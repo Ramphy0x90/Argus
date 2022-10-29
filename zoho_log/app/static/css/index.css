@@ -1,8 +1,3 @@
-@font-face {
-    font-family: "Silkscreen";
-    src: url("../fonts/Silkscreen-Regular.ttf") format("truetype");
-}
-
 .index-main-container {
     display: flex;
     height: 100%;
