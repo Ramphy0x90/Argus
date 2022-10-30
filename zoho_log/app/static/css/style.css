@@ -4,6 +4,7 @@
     --main-bg-color: #F8F9FA;
     --main-bg-light: #e9ecef;
     --main-bg-light-1: #dadde0;
+    --main-color-dark: #343a40;
 
     /* Space */
     --space-1: 5px;
@@ -29,14 +30,18 @@ html, body {
 body {
     font-family: Arial, sans-serif;
     padding: var(--space-3);
+    color: var(--main-color-dark);
     background-color: var(--main-bg-color);
 }
 
 ul {
     list-style: none;
+    padding: 0;
 }
 
 ul li {
+    display: flex;
+    justify-content: space-between;
     padding: var(--space-2);
     border-bottom: 1px solid var(--main-bg-light-1);
 }
