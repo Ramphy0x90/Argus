@@ -24,3 +24,8 @@ class Log(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     log_in = models.DateTimeField(auto_now=True)
     log_out = models.DateTimeField(null = True)
+
+""" Zoho token model """
+class ZohoToken(models.Model):
+    token = models.CharField(max_length=255)
+    creation = models.DateTimeField(auto_now=True)
