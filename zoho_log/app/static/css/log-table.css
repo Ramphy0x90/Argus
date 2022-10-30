@@ -1,6 +1,12 @@
+.log-table-main-container {
+    height: 100%;
+    overflow: auto;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
+    overflow: hidden;
 }
 
 th {

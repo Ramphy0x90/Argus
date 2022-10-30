@@ -3,6 +3,7 @@
     --main-color: #ffc857;
     --main-bg-color: #F8F9FA;
     --main-bg-light: #e9ecef;
+    --main-bg-light-1: #dadde0;
 
     /* Space */
     --space-1: 5px;
@@ -29,6 +30,15 @@ body {
     font-family: Arial, sans-serif;
     padding: var(--space-3);
     background-color: var(--main-bg-color);
+}
+
+ul {
+    list-style: none;
+}
+
+ul li {
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--main-bg-light-1);
 }
 
 /* Small devices (landscape phones, 576px and up) */

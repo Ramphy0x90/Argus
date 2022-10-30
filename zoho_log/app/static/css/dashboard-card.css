@@ -30,9 +30,7 @@
 @media (min-width: 768px) {
     .dashboard-card-main-container {
         max-width: 200px;
-        max-height: 200px;
         width: calc(100% / 3);
-        height: calc(100% / 3);
     }
 
     .dashboard-card-main-container {

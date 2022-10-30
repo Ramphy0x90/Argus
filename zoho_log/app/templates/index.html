@@ -12,15 +12,13 @@
         </div>
         <div class="right-column column">
             <div class="title">Zoho Logs</div>
-            <div class="content">
-                <div class="dashboard row">
-                    {% for k,v in dashboard_data.items %}
-                        {% include 'components/dashboard-card.html' with card_title=k card_data=v %}
-                    {% endfor %}
-                </div>
-                <div class="logs-table row">
-                    {% include 'components/log-table.html' with logs=logs %}
-                </div>
+            <div class="dashboard row">
+                {% for k,v in dashboard_data.items %}
+                    {% include 'components/dashboard-card.html' with card_title=k card_data=v %}
+                {% endfor %}
+            </div>
+            <div class="logs-table row">
+                {% include 'components/log-table.html' with logs=logs %}
             </div>
         </div>
     </div>

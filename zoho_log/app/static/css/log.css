@@ -39,7 +39,7 @@ hr {
 }
 
 .log-main-container .top-row .column {
-    flex: 0 0 50%;
+    flex: 50%;
 }
 
 .log-main-container .content .label {
