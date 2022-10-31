@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block assets %}
+    <style>
+        .not-found-main-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+        }
+        .title {
+            color: var(--main-color);
+            font-size: 36px;
+            font-family: "Silkscreen", sans-serif;
+            text-decoration: none;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+            margin-bottom: calc(var(--space-3) * 6);
+        }
+        .home-return {
+            color: var(--main-color-dark);
+            font-size: 25px;
+            cursor: pointer;
+            margin-top: var(--space-4);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="not-found-main-container main-container">
+        <div class="title">404<br>Page not found
+            <div class="home-return" onclick="window.location='/'">< Home</div>
+        </div>
+    </div>
+{% endblock %}

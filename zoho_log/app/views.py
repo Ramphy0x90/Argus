@@ -133,3 +133,7 @@ def log_out(request):
     function = body_data['function']
     departmentId = body_data['department']
     ticketId = body_data['ticket']
+
+
+def handler404(request, exception=None):
+    return render(request, '404.html', status=404)
