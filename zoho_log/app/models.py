@@ -1,19 +1,19 @@
 from django.db import models
 
-""" Department Mmodel"""
+""" Department Model"""
 class Department(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     zoho_id = models.IntegerField(default=-1)
     country = models.CharField(max_length=255)
 
-""" Function Mmodel"""
+""" Function Model"""
 class Function(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
-""" Ticket Mmodel"""
+""" Ticket Model"""
 class Ticket(models.Model):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(default=-1)
@@ -21,7 +21,7 @@ class Ticket(models.Model):
     subject = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
 
-""" Log Mmodel"""
+""" Log Model"""
 class Log(models.Model):
     id = models.AutoField(primary_key=True)
     function = models.ForeignKey(Function, on_delete=models.CASCADE)
@@ -29,7 +29,7 @@ class Log(models.Model):
     log_in = models.DateTimeField(auto_now=True)
     log_out = models.DateTimeField(null = True)
 
-""" Zoho token model """
+""" Zoho token Model """
 class ZohoToken(models.Model):
     id = models.AutoField(primary_key=True)
     token = models.CharField(max_length=255)
