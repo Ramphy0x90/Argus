@@ -34,7 +34,7 @@ class Zoho:
         existing_token = ZohoToken.objects.all()
         now_time = timezone.now()
 
-        if existing_token.count() > 0 and (now_time - existing_token.values()[0]['creation']).total_seconds() / 60 <= 5:
+        if existing_token.count() > 0 and (now_time - existing_token.values()[0]['creation']).total_seconds() < 3600:
             return existing_token.values()[0]['token']
         else:
             # Send token request
@@ -57,7 +57,6 @@ class Zoho:
         token = self.__get_token()
         # Set request headers
         headers = {
-            'Accept': 'application/json',
             'Content-Type': 'application/json',
             'orgId': self.env('ORGANIZATION_ID'),
             'Authorization': 'Zoho-oauthtoken %s' % token 
@@ -70,6 +69,30 @@ class Zoho:
             ticket_request = requests.get(url_request, headers = headers)
             # Extracting data in json format
             data = ticket_request.json()
+
+            return data
+
+        return False
+
+
+    def get_department(self, id):
+        # Get token
+        token = self.__get_token()
+        # Set request headers
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'orgId': self.env('ORGANIZATION_ID'),
+            'Authorization': 'Zoho-oauthtoken %s' % token 
+        }
+        # Check if token and id exists
+        if token and id:
+            # Url request
+            url_request = 'https://desk.zoho.eu/api/v1/departments/%s' % id
+            # Send department request
+            department_request = requests.get(url_request, headers = headers)
+            # Extracting data in json format
+            data = department_request.json()
 
             return data
 
