@@ -12,8 +12,11 @@ from .models import Department
 from .models import Log
 
 from ast import literal_eval
+from app.services.Zoho import Zoho
 
 from django.views.decorators.csrf import csrf_exempt
+
+zoho_service = Zoho()
 
 @require_GET
 def index(request):
@@ -93,6 +96,7 @@ def log_in(request):
     function = body_data['function']
     departmentId = body_data['department']
     ticketId = body_data['ticket']
+    get_ticket = zoho_service.get_ticket(ticketId)
 
     # Search on database for the required entities
     # to create a new log
@@ -101,7 +105,7 @@ def log_in(request):
     department_data = Department.objects.filter(zoho_id = departmentId)
 
     if ticket_data.count() == 0:
-        new_ticket = Ticket(zoho_id = ticketId)
+        new_ticket = Ticket(zoho_id = ticketId, number=get_ticket['ticketNumber'], subject=get_ticket['subject'], author=get_ticket['email'])
         new_ticket.save()
         ticket_data = Ticket.objects.filter(zoho_id = ticketId)
 
