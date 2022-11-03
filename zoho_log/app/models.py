@@ -26,6 +26,7 @@ class Log(models.Model):
     id = models.AutoField(primary_key=True)
     function = models.ForeignKey(Function, on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    key = models.CharField(max_length=255, null=True)
     log_in = models.DateTimeField(auto_now=True)
     log_out = models.DateTimeField(null = True)
 
