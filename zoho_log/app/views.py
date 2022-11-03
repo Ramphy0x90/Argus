@@ -12,11 +12,8 @@ from .models import Department
 from .models import Log
 
 from ast import literal_eval
-from app.services.Zoho import Zoho
 
-from django.views.decorators.csrf import csrf_exempt
 
-zoho_service = Zoho()
 
 @require_GET
 def index(request):
@@ -50,6 +47,7 @@ def index(request):
 
     return HttpResponse(template.render(context, request))
 
+
 @require_GET
 def log(request, id):
     template = loader.get_template('log.html')
@@ -78,65 +76,6 @@ def function(request, id):
     }
 
     return HttpResponse(template.render(context, request))
-
-
-"""
-log_in
-------
-    This request is used to register the
-    entry of a Zoho function thats is monitored
-"""
-@csrf_exempt
-@require_POST
-def log_in(request):
-    # Transform POST body data to dictionary
-    body_data = literal_eval(request.body.decode('utf-8'))
-
-    # Get POST data
-    function = body_data['function']
-    departmentId = body_data['department']
-    ticketId = body_data['ticket']
-    get_ticket = zoho_service.get_ticket(ticketId)
-
-    # Search on database for the required entities
-    # to create a new log
-    function_data = Function.objects.filter(name = function)
-    ticket_data = Ticket.objects.filter(zoho_id = ticketId)
-    department_data = Department.objects.filter(zoho_id = departmentId)
-
-    if ticket_data.count() == 0:
-        new_ticket = Ticket(zoho_id = ticketId, number=get_ticket['ticketNumber'], subject=get_ticket['subject'], author=get_ticket['email'])
-        new_ticket.save()
-        ticket_data = Ticket.objects.filter(zoho_id = ticketId)
-
-    if department_data.count() == 0:
-        new_department = Department(name = 'Test department', zoho_id = departmentId)
-        new_department.save()
-        department_data = Department.objects.filter(zoho_id = departmentId)
-
-    if function_data.count() == 0:
-        department_instance = Department(id = department_data.values()[0]['id'])
-        new_function = Function(name = function, department = department_instance)
-        new_function.save()
-        function_data = Function.objects.filter(name = function)
-
-    # Create a new function log
-    function_instance = Function(id = function_data.values()[0]['id'])
-    ticket_instamce = Ticket(id = ticket_data.values()[0]['id'])
-    new_log = Log(function = function_instance, ticket = ticket_instamce)
-    new_log.save()
-
-    return HttpResponse(1)
-
-
-def log_out(request):
-        # Transform POST body data to dictionary
-    body_data = literal_eval(request.body.decode('utf-8'))
-
-    # Get POST data
-    function = body_data['function']
-    departmentId = body_data['department']
-    ticketId = body_data['ticket']
 
 
 def handler404(request, exception=None):
