@@ -42,8 +42,17 @@ ul {
 ul li {
     display: flex;
     justify-content: space-between;
+    gap: var(--space-2);
     padding: var(--space-2);
     border-bottom: 1px solid var(--main-bg-light-1);
+    text-align: end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+ul li span {
+    text-align: start;
 }
 
 /* Small devices (landscape phones, 576px and up) */
