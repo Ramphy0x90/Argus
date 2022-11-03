@@ -38,6 +38,7 @@
 }
 
 .right-column .logs-table {
+    display: none;
     flex: 1 1 50%;
     overflow: hidden;
 }
@@ -71,6 +72,12 @@
         flex-direction: row;
         flex: auto;
         align-items: center;
+    }
+
+    .right-column .logs-table {
+        display: block;
+        flex: 1 1 50%;
+        overflow: hidden;
     }
 }
 
