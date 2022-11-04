@@ -58,7 +58,7 @@ def index(request):
 @require_GET
 def log(request, id):
     template = loader.get_template('log.html')
-    log = Log.objects.values('id', 'function_id', 'ticket_id', 'log_in').get(id = id)
+    log = Log.objects.values('id', 'function_id', 'ticket_id', 'log_in', 'log_out').get(id = id)
     function = Function.objects.values('id', 'name', 'department__name').get(id = log['function_id'])
     ticket = Ticket.objects.values('number', 'zoho_id', 'subject', 'author').get(id = log['ticket_id'])
 
