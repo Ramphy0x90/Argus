@@ -13,6 +13,7 @@ from ast import literal_eval
 from app.services.Zoho import Zoho
 
 from django.views.decorators.csrf import csrf_exempt
+import datetime
 
 zoho_service = Zoho()
 
@@ -55,14 +56,16 @@ def log_in(request):
         function_data = Function.objects.filter(name = function)
 
     # Create a new function log
+    new_key = get_key()
     function_instance = Function(id = function_data.values()[0]['id'])
-    ticket_instamce = Ticket(id = ticket_data.values()[0]['id'])
-    new_log = Log(function = function_instance, ticket = ticket_instamce)
+    ticket_instance = Ticket(id = ticket_data.values()[0]['id'])
+    new_log = Log(function = function_instance, ticket = ticket_instance, key = new_key)
     new_log.save()
 
-    return JsonResponse({'key':get_key()})
+    return JsonResponse({'key':new_key})
 
 
+@csrf_exempt
 @require_POST
 def log_out(request):
     # Transform POST body data to dictionary
@@ -72,6 +75,20 @@ def log_out(request):
     function = body_data['function']
     departmentId = body_data['department']
     ticketId = body_data['ticket']
+    key = body_data['key']
+
+    # Search data on db
+    function_data = Function.objects.filter(name = function)
+    ticket_data = Ticket.objects.filter(zoho_id = ticketId)
+    # Prepare instances
+    function_instance = Function(id = function_data.values()[0]['id'])
+    ticket_instance = Ticket(id = ticket_data.values()[0]['id'])
+
+    # Search log
+    log = Log.objects.filter(function = function_instance, ticket = ticket_instance, key = key)
+    log.update(log_out = datetime.datetime.now())
+
+    return HttpResponse(status = 200)
 
 
 def get_key():
