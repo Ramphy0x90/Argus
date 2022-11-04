@@ -1,2 +1,2 @@
-# Argus | Zoho-Log
+# Argus
 Log system for Zoho
