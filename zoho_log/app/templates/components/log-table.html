@@ -17,7 +17,13 @@
                 <td>{{ log.function__name }}</td>
                 <td>{{ log.ticket__number }}</td>
                 <td>{{ log.log_in }}</td>
-                <td>Error</td>
+                <td>
+                    {% if log.log_out == None %}
+                        Error
+                    {% else %}
+                        Success
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
       </table> 

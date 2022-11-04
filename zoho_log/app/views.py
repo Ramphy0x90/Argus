@@ -19,7 +19,8 @@ from ast import literal_eval
 def index(request):
     template = loader.get_template('index.html')
 
-    logs = Log.objects.all().values('id', 'function__name', 'ticket__number', 'log_in')
+    logs = Log.objects.all().values('id', 'function__name', 'ticket__number', 'log_in', 'log_out')
+    logs_failed = Log.objects.filter(log_out = None)
     functions = Function.objects.all().values('id', 'name', 'department__name')
     departments = Department.objects.all().values()
 
@@ -36,7 +37,7 @@ def index(request):
                 'color': '#3a86ff0d'
             },
             'Fails': {
-                'value': 2,
+                'value': logs_failed.count(),
                 'icon': 'error.svg',
                 'color': '#ec00290d'
             }
