@@ -12,14 +12,16 @@
             <th>Date time</th>
             <th>Status</th>
         </tr>
-        {% for log in logs %}
+        {% for log in logs.all %}
             <tr onclick="window.location='/log/{{ log.id }}';">
                 <td>{{ log.function__name }}</td>
                 <td>{{ log.ticket__number }}</td>
                 <td>{{ log.log_in }}</td>
                 <td>
-                    {% if log.log_out == None %}
+                    {% if log.id in logs.failed %}
                         Error
+                    {% elif log.log_out is None %}
+                        In Progress
                     {% else %}
                         Success
                     {% endif %}

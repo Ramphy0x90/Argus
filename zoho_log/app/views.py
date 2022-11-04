@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django.utils import timezone
 
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.http import require_GET
@@ -18,9 +19,11 @@ from ast import literal_eval
 @require_GET
 def index(request):
     template = loader.get_template('index.html')
-
+    logs_failed_query = """SELECT * FROM app_log
+                                    WHERE Cast((JulianDay('now') - JulianDay(log_in)) * 24 * 60 As Integer) > 3
+                                    AND log_out IS NULL"""
+    logs_failed = [log.id for log in Log.objects.raw(logs_failed_query)]
     logs = Log.objects.all().values('id', 'function__name', 'ticket__number', 'log_in', 'log_out')
-    logs_failed = Log.objects.filter(log_out = None)
     functions = Function.objects.all().values('id', 'name', 'department__name')
     departments = Department.objects.all().values()
 
@@ -37,13 +40,16 @@ def index(request):
                 'color': '#3a86ff0d'
             },
             'Fails': {
-                'value': logs_failed.count(),
+                'value': len(logs_failed),
                 'icon': 'error.svg',
                 'color': '#ec00290d'
             }
         },
         'functions': functions,
-        'logs': logs
+        'logs': {
+            'all': logs,
+            'failed': logs_failed
+        }
     }
 
     return HttpResponse(template.render(context, request))
@@ -69,11 +75,20 @@ def log(request, id):
 def function(request, id):
     template = loader.get_template('function.html')
     function = Function.objects.values('id', 'name', 'department__name').get(id = id)
-    logs = Log.objects.values('id', 'function__name', 'ticket__number', 'log_in').filter(function_id = id)
+
+    logs_failed_query = """SELECT * FROM app_log
+                                    WHERE function_id = %s
+                                    AND Cast((JulianDay('now') - JulianDay(log_in)) * 24 * 60 As Integer) > 3
+                                    AND log_out IS NULL"""
+    logs_failed = [log.id for log in Log.objects.raw(logs_failed_query, [id])]
+    logs = Log.objects.values('id', 'function__name', 'ticket__number', 'log_in', 'log_out').filter(function_id = id)
 
     context = {
         'function': function,
-        'logs': logs
+        'logs': {
+            'all': logs,
+            'failed': logs_failed
+        }
     }
 
     return HttpResponse(template.render(context, request))
