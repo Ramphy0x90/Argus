@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.http import require_GET
@@ -57,10 +58,13 @@ def index(request):
 
 @require_GET
 def log(request, id):
-    template = loader.get_template('log.html')
-    log = Log.objects.values('id', 'function_id', 'ticket_id', 'log_in', 'log_out').get(id = id)
-    function = Function.objects.values('id', 'name', 'department__name').get(id = log['function_id'])
-    ticket = Ticket.objects.values('number', 'zoho_id', 'subject', 'author').get(id = log['ticket_id'])
+    try:
+        template = loader.get_template('log.html')
+        log = Log.objects.values('id', 'function_id', 'ticket_id', 'log_in', 'log_out').get(id = id)
+        function = Function.objects.values('id', 'name', 'department__name').get(id = log['function_id'])
+        ticket = Ticket.objects.values('number', 'zoho_id', 'subject', 'author').get(id = log['ticket_id'])
+    except ObjectDoesNotExist:
+        return render(request, '404.html', status=404)
 
     context = {
         'log': log,
@@ -73,15 +77,18 @@ def log(request, id):
 
 @require_GET
 def function(request, id):
-    template = loader.get_template('function.html')
-    function = Function.objects.values('id', 'name', 'department__name').get(id = id)
+    try:
+        template = loader.get_template('function.html')
+        function = Function.objects.values('id', 'name', 'department__name').get(id = id)
 
-    logs_failed_query = """SELECT * FROM app_log
-                                    WHERE function_id = %s
-                                    AND Cast((JulianDay('now') - JulianDay(log_in)) * 24 * 60 As Integer) > 3
-                                    AND log_out IS NULL"""
-    logs_failed = [log.id for log in Log.objects.raw(logs_failed_query, [id])]
-    logs = Log.objects.values('id', 'function__name', 'ticket__number', 'log_in', 'log_out').filter(function_id = id)
+        logs_failed_query = """SELECT * FROM app_log
+                                        WHERE function_id = %s
+                                        AND Cast((JulianDay('now') - JulianDay(log_in)) * 24 * 60 As Integer) > 3
+                                        AND log_out IS NULL"""
+        logs_failed = [log.id for log in Log.objects.raw(logs_failed_query, [id])]
+        logs = Log.objects.values('id', 'function__name', 'ticket__number', 'log_in', 'log_out').filter(function_id = id)
+    except ObjectDoesNotExist:
+        return render(request, '404.html', status=404)
 
     context = {
         'function': function,

@@ -15,7 +15,7 @@
         {% for log in logs.all %}
             <tr onclick="window.location='/log/{{ log.id }}';">
                 <td>{{ log.function__name }}</td>
-                <td>{{ log.ticket__number }}</td>
+                <td>#{{ log.ticket__number }}</td>
                 <td>{{ log.log_in }}</td>
                 <td>
                     {% if log.id in logs.failed %}
