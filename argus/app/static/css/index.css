@@ -7,12 +7,10 @@
 
 .column {
     width: 100%;
-    flex: 50%;
-    height: 50%;
 }
 
 .left-column {
-    height: 50%;
+    height: 100%;
 }
 
 .right-column {
@@ -63,10 +61,6 @@
     .index-main-container .right-column {
         flex: auto;
     }
-
-    .left-column {
-        height: 100%;
-    }    
 
     .right-column .dashboard {
         flex-direction: row;
